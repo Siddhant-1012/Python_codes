@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+# Parameters
+r = 5          # radius (m)
+omega = 0.5    # angular velocity (rad/s)
+
+fig, ax = plt.subplots()
+ax.set_xlim(-r-1, r+1)
+ax.set_ylim(-r-1, r+1)
+ax.set_aspect('equal')
+
+# Draw orbit
+#theta = np.linspace(0, 2*np.pi, 500)
+#ax.plot(r*np.cos(theta), r*np.sin(theta))
+
+particle1,= ax.plot([], [], 'o')
+particle2,= ax.plot([], [], 'o')
+def update(frame):
+    t = frame * -0.1
+    
+    # Particle 1
+    x1 = r*np.cos(omega*t)
+    y1 = r*np.sin(omega*t)
+
+    # Particle 2
+    x2 = (r+1)*np.cos(omega*t*2 )
+    y2 = (r+1)*np.sin(omega*t*2 )
+
+    particle1.set_data([x1], [y1])
+    particle2.set_data([x2], [y2])
+
+    return particle1, particle2
+
+ani = FuncAnimation(fig, update, frames=500,
+                    interval=2, blit=False)
+
+plt.show()
